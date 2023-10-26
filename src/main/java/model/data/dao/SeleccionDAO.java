@@ -14,14 +14,14 @@ import static org.jooq.impl.DSL.table;
 
 public class SeleccionDAO {
     public static void agregarSeleccion(DSLContext query, Seleccion seleccion){
-        Table tablaCarrera= table(name("Seleccion"));
-        Field[] columnas = tablaCarrera.fields("nombre_seleccion","id","ranking-fifa", "icono-bandera");
-        query.insertInto(tablaCarrera, columnas[0], columnas[1],columnas[2],columnas[3])
+        Table tablaSeleccion= table(name("seleccion"));
+        Field[] columnas = tablaSeleccion.fields("nombre_seleccion","id","ranking-fifa", "icono-bandera");
+        query.insertInto(tablaSeleccion, columnas[0], columnas[1],columnas[2],columnas[3])
                 .values(seleccion.getNombreSeleccion(), seleccion.getId(), seleccion.getRankingFifa(), seleccion.getIconoBandera())
                 .execute();
     }
     public static boolean validarExistenciaSeleccion(DSLContext query,String columnaTabla, Object dato){
-        Result resultados = query.select().from(DSL.table("Seleccion")).where(DSL.field(columnaTabla).eq(dato)).fetch();
+        Result resultados = query.select().from(DSL.table("seleccion")).where(DSL.field(columnaTabla).eq(dato)).fetch();
         if(resultados.size()>=1){
             return true;
         }
@@ -39,11 +39,11 @@ public class SeleccionDAO {
     }
 
     public static List buscarSeleccion(DSLContext query, String columnaTabla, Object dato){
-        Result resultados = query.select().from(DSL.table("Seleccion")).where(DSL.field(columnaTabla).eq(dato)).fetch();
+        Result resultados = query.select().from(DSL.table("seleccion")).where(DSL.field(columnaTabla).eq(dato)).fetch();
         return resultados;
     }
     public static Object[] getIDSeleccion(DSLContext query){
-        Table Seleccion= DSL.table("Seleccion");
+        Table Seleccion= DSL.table("seleccion");
         Result resultados = query.select(Seleccion.field("id")).from(Seleccion).fetch();
         if(resultados.size()==0){
             return new String[]{"Error no existen selecciones"};
@@ -54,5 +54,4 @@ public class SeleccionDAO {
     }
 
 }
-
 

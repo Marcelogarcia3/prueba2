@@ -16,9 +16,9 @@ public class DBGenerator {
         DSLContext create = DSL.using(connection);
         crearBaseDato(create,nombreBD);
         create = actualizarConexion(connection,nombreBD);
-        crearTablaCarrera(create);
-        crearTablaEstudiante(create);
-        relacionarTabla(create,"Estudiante","codigo_carrera","Carrera");
+        crearTablaSeleccion(create);
+        crearTablaJugador(create);
+        relacionarTabla(create,"jugador","id-seleccion","seleccion");
         DBConnector.closeConnection();
 
     }
@@ -38,19 +38,19 @@ public class DBGenerator {
         return create;
     }
 
-    private static void crearTablaCarrera(DSLContext create){
-        create.createTableIfNotExists("Carrera").column("nombre_carrera",VARCHAR(100))
-                .column("codigo",VARCHAR(50))
-                .column("cantidad_semestres",INTEGER)
-                .constraint(primaryKey("codigo")).execute();
+    private static void crearTablaSeleccion(DSLContext create){
+        create.createTableIfNotExists("seleccion").column("nombre_seleccion",VARCHAR(100))
+                .column("id",VARCHAR(50))
+                .column("ranking-fifa",INTEGER)
+                .constraint(primaryKey("id")).execute();
     }
 
-    private static void crearTablaEstudiante(DSLContext create){
-        create.createTableIfNotExists("Estudiante").column("rut",VARCHAR(50))
+    private static void crearTablaJugador(DSLContext create){
+        create.createTableIfNotExists("jugador").column("numero",VARCHAR(50))
                 .column("nombre",VARCHAR(100))
-                .column("matricula",VARCHAR(50))
-                .column("codigo_carrera",VARCHAR(50))
-                .constraint(primaryKey("rut")).execute();
+                .column("posicion",VARCHAR(50))
+                .column("id-seleccion",VARCHAR(50))
+                .constraint(primaryKey("numero")).execute();
 
     }
     private static void relacionarTabla(DSLContext create, String nombreTabla, String claveForanea, String nombreTablaRelacion){
